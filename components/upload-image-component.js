@@ -1,4 +1,4 @@
-import { uploadImage } from "../api.js";
+import { uploadImage} from "../api.js";
 
 export function renderUploadImageComponent({ element, onImageUrlChange }) {
   let imageUrl = "";
@@ -27,7 +27,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
       `
       }
   </div>
-`;
+  `; 
 
     const fileInputElement = element.querySelector(".file-upload-input");
 
