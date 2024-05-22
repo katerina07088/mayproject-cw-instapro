@@ -29,23 +29,27 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) 
     appEl.innerHTML = appHtml;
 
     renderHeaderComponent({
-      element: document.querySelector(".header-container"),    // как узнали, что можно так сделать запись?
+      element: document.querySelector(".header-container"),    
       });
 
-    renderUploadImageComponent({ 
-      element: appEl.querySelector(".upload-image-container"),             //как узнали, что так можно/ почему это не сработало с getElementById
-    //   onImageUrlChange(newImageUrl) {                                      //как это функцию одновременно вызыааем и создаем?
-    //    imageUrl = newImageUrl;
-    //   }
-    })
 
+   const uploadImageContainer = appEl.querySelector(".upload-image-container");
 
+   if(uploadImageContainer){
+      renderUploadImageComponent({ 
+        element: appEl.querySelector(".upload-image-container"),     //почему не работает с  getElementById       
+        onImageUrlChange(newImageUrl) {                                      
+         imageUrl = newImageUrl;
+         },
+      })
+    }
+   
   
   document.getElementById("add-button").addEventListener("click", () => {
-    // if (!imageUrl) {
-    //   alert('Выберите фото');
-    //   return;
-    // };
+    if (!imageUrl) {
+      alert('Выберите фото');
+      return;
+    };
     if (document.getElementById('inputDescription').value.trim() === "") {
       alert('Не заполнено описание фото');
       return;
