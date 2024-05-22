@@ -1,8 +1,7 @@
-import { goToPage } from "..";
 import {renderUploadImageComponent} from "../components/upload-image-component";
 import {renderHeaderComponent} from "../components/header-component";
 import { sanitize } from "../helpers";
-import { POSTS_PAGE } from "../routes";
+
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) {
   

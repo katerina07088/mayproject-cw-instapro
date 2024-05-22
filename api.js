@@ -66,7 +66,6 @@ export function loginUser({ login, password }) {
 // Загружает картинку в облако, возвращает url загруженной картинки
 
 export function uploadImage({ file }) {
-  
   const data = new FormData();
   data.append("file", file);
 
@@ -81,10 +80,10 @@ export function uploadImage({ file }) {
 // добавление поста
 export function addPost ({description, token, imageUrl}) {
  
-  return fetch (postsHost,{
+  return fetch (postsHost, {
     method:"POST",
     headers: {
-      Authorization: token,
+      Authorization: token
     },
     body:JSON.stringify({
       decription: description,    //нужна ли здесь sanitize или ее достаточно в 
@@ -101,5 +100,52 @@ export function addPost ({description, token, imageUrl}) {
       } else {
         throw new Error("Что-то пошло не так");
       }
-    })
+    });
 }
+
+export function getUserPosts({id, token }) {
+  return fetch(postsHost + `/user-posts/${id}`, {       //так ли не знаю
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data.posts;
+    });
+}
+
+export const addLike = (id, { token }) => {
+  return fetch(postsHost +`${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    }
+    throw new Error("Только авторизованные пользователи могут поставить лайк");
+  });
+};
+
+
+export const removeLike = (id, { token }) => {
+  return fetch(postsHost +`${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    }
+    throw new Error("Только авторизованные пользователи могут поставить лайк");
+  });
+};
