@@ -4,7 +4,8 @@ import {renderHeaderComponent} from "../components/header-component";
 import { sanitize } from "../helpers";
 import { POSTS_PAGE } from "../routes";
 
-export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
+export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) {
+  
   const render = () => {
     //const appEl = document.getElementById("app");
     // TODO: Реализовать страницу добавления поста
@@ -30,30 +31,31 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     renderHeaderComponent({
       element: document.querySelector(".header-container"),    // как узнали, что можно так сделать запись?
       });
-    
-     renderUploadImageComponent({ 
+
+    renderUploadImageComponent({ 
       element: appEl.querySelector(".upload-image-container"),             //как узнали, что так можно/ почему это не сработало с getElementById
-      onImageUrlChange(newImageUrl) {                                      //как это функцию одновременно вызыааем и создаем?
-       imageUrl = newImageUrl;
-      }
+    //   onImageUrlChange(newImageUrl) {                                      //как это функцию одновременно вызыааем и создаем?
+    //    imageUrl = newImageUrl;
+    //   }
     })
 
 
-  const inputDescriptionElement = document.getElementById('inputDescription');
+  
   document.getElementById("add-button").addEventListener("click", () => {
-    if (!imageUrl) {
-      alert('Выберите фото');
-      return;
-    };
-    if (inputDescriptionElement.value.trim() === "" && textCommentEl.value.trim() === "") {
+    // if (!imageUrl) {
+    //   alert('Выберите фото');
+    //   return;
+    // };
+    if (document.getElementById('inputDescription').value.trim() === "") {
       alert('Не заполнено описание фото');
       return;
     };
-  
+
+    const inputDescriptionElement = document.getElementById('inputDescription')
     onAddPostClick ({
       description: sanitize(inputDescriptionElement.value),
       imageUrl: imageUrl,
-    });
+    })  
   });
 };
  render();

@@ -4,7 +4,7 @@ import { sanitize } from "./helpers";
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "prod";
 //const baseHost = "https://wedev-api.sky.pro";
-const baseHost = "https://webdev-hw-api.vercel.app";
+const baseHost = "https://webdev-hw-api.vercel.app";    
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 //const baseURL = "https://wedev-api.sky.pro/api/v1/:personal-key/instapro";
 
@@ -76,12 +76,7 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   })
-  .then((data) => {
-    console.log(data.fileUrl);
-  });
 }
-
-
 
 // добавление поста
 export function addPost ({description, token, imageUrl}) {
@@ -92,9 +87,10 @@ export function addPost ({description, token, imageUrl}) {
       Authorization: token,
     },
     body:JSON.stringify({
-      decription: sanitize(description),    //нужна ли здесь sanitize или ее достаточно в 
+      decription: description,    //нужна ли здесь sanitize или ее достаточно в 
       imageUrl: imageUrl,
-    })
+    }),
+  })
     .catch(() => {
       throw new Error("Кажется, у вас сломался интернет, попробуйте позже");
     })
@@ -106,5 +102,4 @@ export function addPost ({description, token, imageUrl}) {
         throw new Error("Что-то пошло не так");
       }
     })
-  });
 }
