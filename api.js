@@ -1,4 +1,3 @@
-import { sanitize } from "./helpers";
 
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
@@ -86,7 +85,7 @@ export function addPost ({description, token, imageUrl}) {
       Authorization: token
     },
     body:JSON.stringify({
-      decription: description,    //нужна ли здесь sanitize или ее достаточно в 
+      description: description,    //нужна ли здесь sanitize или ее достаточно в 
       imageUrl: imageUrl,
     }),
   })
@@ -122,12 +121,13 @@ export function getUserPosts({id, token }) {
 }
 
 export const addLike = (id, { token }) => {
-  return fetch(postsHost +`${id}/dislike`, {
+  return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
       Authorization: token,
     },
-  }).then((response) => {
+  })
+  .then((response) => {
     if (response.status === 200) {
       return response.json();
     }
@@ -137,12 +137,13 @@ export const addLike = (id, { token }) => {
 
 
 export const removeLike = (id, { token }) => {
-  return fetch(postsHost +`${id}/dislike`, {
+  return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {
       Authorization: token,
     },
-  }).then((response) => {
+  })
+  .then((response) => {
     if (response.status === 200) {
       return response.json();
     }

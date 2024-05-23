@@ -1,8 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, getToken } from "../index.js";
 import { formatDistanceToNow } from "../node_modules/date-fns";
 import { ru } from "../node_modules/date-fns/locale"
+import {addLike, removeLike} from "../api.js"
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -27,14 +28,20 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src=${post.imageUrl}>
                     </div>
                     <div class="post-likes">
-                      <button data-post-id=${post.id}  data-liked="${post.isLiked}"  class="like-button">
+                      <button data-id=${post.id}  data-liked="${post.isLiked}"  class="like-button">
                        ${post.isLiked
                         ?`<img src="./assets/images/like-active.svg">`
                         :`<img src="./assets/images/like-not-active.svg">`
                          } 
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>2</strong>
+                        Нравится:<strong>
+                         ${
+                          post.isLiked
+                          ?` ${post.likes.name} и еще <span class="likes-counter"> <strong> ${post.likes} </strong> </span>`
+                          :` ${post.likes} `
+                           } 
+                           </strong>
                       </p>
                     </div>
                     <p class="post-text">
@@ -57,7 +64,35 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
   }
+  countLikes()
 }
+
+export function countLikes() {
+  const likeButtonElements = document.querySelectorAll(".like-button");
+  for (const likeEl of likeButtonElements) {
+    likeEl.addEventListener("click", function (e) {
+      e.stopPropagation();
+        const id = likeEl.dataset.id;
+        const isLiked = likeEl.dataset.liked;
+
+        if (isLiked ==="false") {
+          addLike (id, { token: getToken() })
+          // .then (()=> {
+
+          // })
+          // comments[index].likeButton = false;
+          // comments[index].likeCounter--;
+        } else {
+          removeLike(id, { token: getToken() })
+          // .then (()=> {
+            
+          // })
+          // comments[index].likeButton = true;
+          // comments[index].likeCounter++;
+        }
+      })
+    };
+  }
 
 
 
