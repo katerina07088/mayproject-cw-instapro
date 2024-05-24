@@ -33,10 +33,9 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
-
-export const updatePosts = newPosts => {
-  posts = newPosts
-}
+export const updatePosts = (newPosts) => {
+  posts = newPosts;
+};
 /**
  * Включает страницу приложения
  */
@@ -74,21 +73,20 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === USER_POSTS_PAGE) {
       // TODO: реализовать получение постов юзера из API
-   console.log("Открываю страницу пользователя: ", data.userId);
-    //page = USER_POSTS_PAGE; 
-    // posts = [];
-    // renderApp();
-    return getUserPosts({ id: data.userId, token: getToken() })
-    .then((newPosts) => {
-      page = USER_POSTS_PAGE;
-      posts = newPosts;
-      userId = data.userId;
-      renderApp();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-     
+      console.log("Открываю страницу пользователя: ", data.userId);
+      //page = USER_POSTS_PAGE;
+      // posts = [];
+      // renderApp();
+      return getUserPosts({ id: data.userId, token: getToken() })
+        .then((newPosts) => {
+          page = USER_POSTS_PAGE;
+          posts = newPosts;
+          userId = data.userId;
+          renderApp();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
 
     page = newPage;
@@ -129,19 +127,18 @@ export const renderApp = () => {
       onAddPostClick({ description, imageUrl }) {
         // TODO: реализовать добавление поста в API
         console.log("Добавляю пост...", { description, imageUrl });
-        addPost({token:getToken(), description, imageUrl})
-        .then(()=>{
-        goToPage(POSTS_PAGE);
-      });
-     },
-   });
+        addPost({ token: getToken(), description, imageUrl }).then(() => {
+          goToPage(POSTS_PAGE);
+        });
+      },
+    });
   }
 
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
-  })
-}
+    });
+  }
 
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
@@ -149,7 +146,7 @@ export const renderApp = () => {
     return renderUserPostsPageComponent({
       appEl,
     });
-     
+
     // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
     // return;
   }

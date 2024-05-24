@@ -1,10 +1,12 @@
-import {renderUploadImageComponent} from "../components/upload-image-component";
-import {renderHeaderComponent} from "../components/header-component";
+import { renderUploadImageComponent } from "../components/upload-image-component";
+import { renderHeaderComponent } from "../components/header-component";
 import { sanitize } from "../helpers";
 
-
-export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) {
-  
+export function renderAddPostPageComponent({
+  appEl,
+  onAddPostClick,
+  imageUrl,
+}) {
   const render = () => {
     //const appEl = document.getElementById("app");
     // TODO: Реализовать страницу добавления поста
@@ -28,41 +30,40 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) 
     appEl.innerHTML = appHtml;
 
     renderHeaderComponent({
-      element: document.querySelector(".header-container"),    
+      element: document.querySelector(".header-container"),
+    });
+
+    const uploadImageContainer = appEl.querySelector(".upload-image-container");
+
+    if (uploadImageContainer) {
+      renderUploadImageComponent({
+        element: appEl.querySelector(".upload-image-container"), //почему не работает с  getElementById
+        onImageUrlChange(newImageUrl) {
+          imageUrl = newImageUrl;
+        },
       });
-
-
-   const uploadImageContainer = appEl.querySelector(".upload-image-container");
-
-   if(uploadImageContainer){
-      renderUploadImageComponent({ 
-        element: appEl.querySelector(".upload-image-container"),     //почему не работает с  getElementById       
-        onImageUrlChange(newImageUrl) {                                      
-         imageUrl = newImageUrl;
-         },
-      })
     }
-   
-  
-  document.getElementById("add-button").addEventListener("click", () => {
-    if (!imageUrl) {
-      alert('Выберите фото');
-      return;
-    };
-    if (document.getElementById('inputDescription').value.trim() === "") {
-      alert('Не заполнено описание фото');
-      return;
-    };
 
-    const inputDescriptionElement = document.getElementById('inputDescription')
-    onAddPostClick ({
-      description: sanitize(inputDescriptionElement.value),
-      imageUrl: imageUrl,
-    })  
-  });
-};
- render();
-};
+    document.getElementById("add-button").addEventListener("click", () => {
+      if (!imageUrl) {
+        alert("Выберите фото");
+        return;
+      }
+      if (document.getElementById("inputDescription").value.trim() === "") {
+        alert("Не заполнено описание фото");
+        return;
+      }
+
+      const inputDescriptionElement =
+        document.getElementById("inputDescription");
+      onAddPostClick({
+        description: sanitize(inputDescriptionElement.value),
+        imageUrl: imageUrl,
+      });
+    });
+  };
+  render();
+}
 
 //     const onAddPostClick = () => {
 //     document.getElementById("add-button").addEventListener("click", () => {
@@ -78,4 +79,3 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, imageUrl }) 
 //       });
 //   });
 // };
- 

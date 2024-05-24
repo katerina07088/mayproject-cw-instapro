@@ -21,5 +21,3 @@ export function sanitize(text) {
     .replaceAll("QUOTE_BEGIN", '<div class="quote">')
     .replaceAll("QUOTE_END", "</div>");
 }
-
-
