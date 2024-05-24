@@ -8,7 +8,7 @@ import {
   POSTS_PAGE,
   USER_POSTS_PAGE,
 } from "./routes.js";
-import { countLikes, renderPostsPageComponent } from "./components/posts-page-component.js";
+import { renderPostsPageComponent } from "./components/posts-page-component.js";
 import { renderLoadingPageComponent } from "./components/loading-page-component.js";
 import {
   getUserFromLocalStorage,
@@ -140,22 +140,8 @@ export const renderApp = () => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
-  
-//   deletePostClick({ postId }) {
-//     deletePost({
-//         token: getToken(),
-//         postId,
-//     })
-//         .then(getPosts)
-//         .then(newPosts => {
-//             updatePosts(newPosts)
-//             renderApp()
-//         })
-// }
   })
 }
-   
-
 
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя

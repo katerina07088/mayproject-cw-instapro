@@ -130,9 +130,14 @@ export const addLike = ({id, token }) => {
   .then((response) => {
     if (response.status === 200) {
       return response.json();
-    }
+    } else {
     throw new Error("Только авторизованные пользователи могут поставить лайк");
-  });
+   };
+ })
+ .catch((error) => {
+  alert(error.message);
+  console.warn(error);
+});
 };
 
 
@@ -146,22 +151,12 @@ export const removeLike = ({id, token }) => {
   .then((response) => {
     if (response.status === 200) {
       return response.json();
-    }
+    } else {
     throw new Error("Только авторизованные пользователи могут поставить лайк");
+  }
+  })
+  .catch((error) => {
+    alert(error.message);
+    console.warn(error);
   });
 };
-
-
-export function deletePost({ token, postId }) {
-   return fetch(`${postsHost}/${postId}`, {
-      method: 'DELETE',
-      headers: {
-          Authorization: token,
-      },
-  }).then(response => {
-      if (response.status === 401) {
-          throw new Error('Нет авторизации')
-      }
-      return response.json()
-  })
-}

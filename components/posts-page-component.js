@@ -1,9 +1,9 @@
-import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken, renderApp, updatePosts, userId, page } from "../index.js";
+import { posts, goToPage, getToken, renderApp, updatePosts} from "../index.js";
 import { formatDistanceToNow } from "../node_modules/date-fns";
 import { ru } from "../node_modules/date-fns/locale"
-import {addLike, removeLike, getPosts, getUserPosts} from "../api.js"
+import {addLike, removeLike, getPosts} from "../api.js"
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -13,7 +13,6 @@ export function renderPostsPageComponent({ appEl }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  //  <button class="${user?._id === post.user.id ? `delete-button` : `-hide-delete-button`}" data-post-id="${post.id}"></button>  кнопка для удаления
       const appHtml = posts.map((post) => {
         return  `
               <div class="page-container">
@@ -71,12 +70,6 @@ export function renderPostsPageComponent({ appEl }) {
   }
 
 
-//   document.querySelectorAll('.delete-button').forEach(deleteButton => {
-//     deleteButton.addEventListener('click', () => {
-//         deletePostClick({ postId: deleteButton.dataset.postId })
-//     })
-// })
-
   function countLikes() {
     const likeButtonElements = document.querySelectorAll(".like-button");
     for (const likeEl of likeButtonElements) {
@@ -108,20 +101,6 @@ export function renderPostsPageComponent({ appEl }) {
       });
      }
     }
-
-
-  //         if (isLiked ==="false") {
-  //           addLike (id, { token: getToken() })
-  //           // .then(() => {
-  //           //   })
-  //         } else {
-  //           removeLike(id, { token: getToken() })
-  //           // .then (()=> {
-  //         //})
-  //       }
-  //     });
-  //   }
-  // }
   countLikes()
 }
 
