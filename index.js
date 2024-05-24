@@ -15,10 +15,12 @@ import {
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
 } from "./helpers.js";
+import { renderUserPostsPageComponent } from "./components/user-posts-page-component.js";
 
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
+export let userId = null;
 
 export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
@@ -32,7 +34,7 @@ export const logout = () => {
 };
 
 
-const updatePosts = newPosts => {
+export const updatePosts = newPosts => {
   posts = newPosts
 }
 /**
@@ -80,6 +82,7 @@ export const goToPage = (newPage, data) => {
     .then((newPosts) => {
       page = USER_POSTS_PAGE;
       posts = newPosts;
+      userId = data.userId;
       renderApp();
     })
     .catch((error) => {
@@ -157,7 +160,7 @@ export const renderApp = () => {
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
 
-    return renderPostsPageComponent({
+    return renderUserPostsPageComponent({
       appEl,
     });
      

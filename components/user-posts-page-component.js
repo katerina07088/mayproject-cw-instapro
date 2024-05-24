@@ -1,12 +1,12 @@
 import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken, renderApp, updatePosts, userId, page } from "../index.js";
-import { formatDistanceToNow } from "../node_modules/date-fns";
-import { ru } from "../node_modules/date-fns/locale"
+import { posts, goToPage, getToken, renderApp, updatePosts, userId } from "../index.js";
+import { formatDistanceToNow } from "../node_modules/date-fns/index.js";
+import { ru } from "../node_modules/date-fns/locale.js"
 import {addLike, removeLike, getPosts, getUserPosts} from "../api.js"
 
 
-export function renderPostsPageComponent({ appEl }) {
+export function renderUserPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
   /**
@@ -88,7 +88,7 @@ export function renderPostsPageComponent({ appEl }) {
           if (isLiked === "true") {
             removeLike( {id,  token: getToken() })
             .then(() => {
-              return getPosts({token: getToken()});
+              return  getUserPosts({token: getToken(), id: userId})
           })
           .then((posts) => {
             updatePosts(posts)
@@ -98,7 +98,7 @@ export function renderPostsPageComponent({ appEl }) {
           else {
             addLike({ id, token: getToken() })
             .then(() => {
-              return getPosts({token: getToken()});
+              return  getUserPosts({token: getToken(), id: userId});
           })
           .then((posts) => {
             updatePosts(posts)

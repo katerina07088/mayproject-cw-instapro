@@ -1,9 +1,9 @@
 
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "prod";
-//const baseHost = "https://wedev-api.sky.pro";
-const baseHost = "https://webdev-hw-api.vercel.app";    
+const personalKey = "korotenko";
+const baseHost = "https://wedev-api.sky.pro";
+//const baseHost = "https://webdev-hw-api.vercel.app";    
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 //const baseURL = "https://wedev-api.sky.pro/api/v1/:personal-key/instapro";
 
@@ -120,7 +120,7 @@ export function getUserPosts({id, token }) {
     });
 }
 
-export const addLike = (id, { token }) => {
+export const addLike = ({id, token }) => {
   return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
@@ -136,7 +136,7 @@ export const addLike = (id, { token }) => {
 };
 
 
-export const removeLike = (id, { token }) => {
+export const removeLike = ({id, token }) => {
   return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {
