@@ -27,7 +27,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
       `
       }
   </div>
-`;
+  `;
 
     const fileInputElement = element.querySelector(".file-upload-input");
 
