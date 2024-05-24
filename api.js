@@ -150,3 +150,18 @@ export const removeLike = (id, { token }) => {
     throw new Error("Только авторизованные пользователи могут поставить лайк");
   });
 };
+
+
+export function deletePost({ token, postId }) {
+   return fetch(`${postsHost}/${postId}`, {
+      method: 'DELETE',
+      headers: {
+          Authorization: token,
+      },
+  }).then(response => {
+      if (response.status === 401) {
+          throw new Error('Нет авторизации')
+      }
+      return response.json()
+  })
+}

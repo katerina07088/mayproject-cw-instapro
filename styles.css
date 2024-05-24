@@ -196,3 +196,19 @@
   width: 100%;
   text-align: center;
 }
+.delete-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  background: url('./assets/images/delete-btn.svg') no-repeat center
+      transparent;
+}
+
+.-hide-delete-button {
+  display: none;
+}
+
+.delete-button:hover {
+  animation: jello-horizontal 0.9s both;
+}

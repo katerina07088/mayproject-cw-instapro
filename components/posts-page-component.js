@@ -1,9 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken } from "../index.js";
+import { posts, goToPage, getToken, renderApp, updatePosts } from "../index.js";
 import { formatDistanceToNow } from "../node_modules/date-fns";
 import { ru } from "../node_modules/date-fns/locale"
-import {addLike, removeLike} from "../api.js"
+import {addLike, removeLike, getPosts} from "../api.js"
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -13,8 +13,8 @@ export function renderPostsPageComponent({ appEl }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  
-      const appHtml = posts.map((post, index) => {
+  //  <button class="${user?._id === post.user.id ? `delete-button` : `-hide-delete-button`}" data-post-id="${post.id}"></button>  кнопка для удаления
+      const appHtml = posts.map((post) => {
         return  `
               <div class="page-container">
                 <div class="header-container"></div>
@@ -28,6 +28,7 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src=${post.imageUrl}>
                     </div>
                     <div class="post-likes">
+                   
                       <button data-id=${post.id}  data-liked="${post.isLiked}"  class="like-button">
                        ${post.isLiked
                         ?`<img src="./assets/images/like-active.svg">`
@@ -36,12 +37,16 @@ export function renderPostsPageComponent({ appEl }) {
                       </button>
                       <p class="post-likes-text">
                         Нравится:<strong>
-                         ${
-                          post.isLiked
-                          ?` ${post.likes.name} и еще <span class="likes-counter"> <strong> ${post.likes} </strong> </span>`
-                          :` ${post.likes} `
-                           } 
-                           </strong>
+                        ${
+                          post.likes.length === 0
+                            ? 0
+                            : post.likes.length === 1
+                            ? post.likes[0].name
+                            : post.likes[post.likes.length - 1].name +
+                              " и еще " +
+                              (post.likes.length - 1)
+                        }    
+                                </strong>
                       </p>
                     </div>
                     <p class="post-text">
@@ -64,36 +69,62 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
   }
+
+
+//   document.querySelectorAll('.delete-button').forEach(deleteButton => {
+//     deleteButton.addEventListener('click', () => {
+//         deletePostClick({ postId: deleteButton.dataset.postId })
+//     })
+// })
+
+  function countLikes() {
+    const likeButtonElements = document.querySelectorAll(".like-button");
+    for (const likeEl of likeButtonElements) {
+      likeEl.addEventListener("click", function (e) {
+        e.stopPropagation();
+          const id = likeEl.dataset.id;
+          const isLiked = likeEl.dataset.liked;
+  
+          if (isLiked === "true") {
+            removeLike({
+              id, token: getToken()
+            })
+        .then(newPosts => {
+          updatePosts(newPosts)
+          renderApp()
+      })
+          }
+          else {
+            addLike({
+              id, token: getToken()
+            })
+            .then(newPosts => {
+              updatePosts(newPosts)
+              renderApp()
+          })
+        }
+      })
+     }
+    }
+
+
+
+
+
+
+  //         if (isLiked ==="false") {
+  //           addLike (id, { token: getToken() })
+  //           // .then(() => {
+  //           //   })
+  //         } else {
+  //           removeLike(id, { token: getToken() })
+  //           // .then (()=> {
+  //         //})
+  //       }
+  //     });
+  //   }
+  // }
   countLikes()
 }
 
-export function countLikes() {
-  const likeButtonElements = document.querySelectorAll(".like-button");
-  for (const likeEl of likeButtonElements) {
-    likeEl.addEventListener("click", function (e) {
-      e.stopPropagation();
-        const id = likeEl.dataset.id;
-        const isLiked = likeEl.dataset.liked;
-
-        if (isLiked ==="false") {
-          addLike (id, { token: getToken() })
-          // .then (()=> {
-
-          // })
-          // comments[index].likeButton = false;
-          // comments[index].likeCounter--;
-        } else {
-          removeLike(id, { token: getToken() })
-          // .then (()=> {
-            
-          // })
-          // comments[index].likeButton = true;
-          // comments[index].likeCounter++;
-        }
-      })
-    };
-  }
-
-
-
-
+ 
