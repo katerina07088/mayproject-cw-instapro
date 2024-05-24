@@ -12,4 +12,4 @@ https://katerina07088.github.io/mayproject-cw-instapro/
 
 ## Фактически затраченное время
 
-48 часов
+48 часов 
